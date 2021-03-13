@@ -74,6 +74,8 @@ func NewXContentTypes(worksheetRelations *XRelationships) (contentTypes *XConten
 			contentType = ThemeContentType
 		case WorksheetRelationshipType:
 			contentType = WorksheetContentType
+		case SharedStringsRelationshipType:
+			contentType = SharedStringsContentType
 		}
 		contentTypes.Overrides = append(contentTypes.Overrides, &XOverride{
 			PartName:    fmt.Sprintf("/xl/%s", relationship.Target),

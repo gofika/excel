@@ -13,5 +13,5 @@ func (s *XlsxSuite) TestNewFile(c *C) {
 func (s *XlsxSuite) TestOpenFile(c *C) {
 	f, err := OpenFile("test_docs/two_sheet.xlsx")
 	c.Assert(err, IsNil)
-	c.Assert(f.xFile.Worksheets, HasLen, 2)
+	c.Assert(f.Sheets(), HasLen, 2)
 }

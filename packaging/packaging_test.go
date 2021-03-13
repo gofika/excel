@@ -37,7 +37,7 @@ func XMLMarshalAppendHeadIndent(v interface{}) (ret string, err error) {
 var templatePath = path.Join("../template")
 
 const (
-	isAssertDefaultTemplate = false
+	isAssertDefaultTemplate = true
 )
 
 var (

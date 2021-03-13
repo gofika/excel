@@ -31,13 +31,14 @@ type XRelationship struct {
 }
 
 // NewWorkbookXRelationships create *XRelationships from Worksheets and Themes
-func NewWorkbookXRelationships(worksheets []*XWorksheet, themes []*XTheme) (workbookRelations *XRelationships) {
+func NewWorkbookXRelationships(file *XFile) (workbookRelations *XRelationships) {
 	workbookRelations = &XRelationships{
 		Relationships: []*XRelationship{},
 	}
 	rID := 0
 
-	for i := range worksheets {
+	// worksheets/sheet?.xml
+	for i := range file.Worksheets {
 		sheetIndex := i + 1
 		rID++
 		workbookRelations.Relationships = append(workbookRelations.Relationships, &XRelationship{
@@ -47,7 +48,9 @@ func NewWorkbookXRelationships(worksheets []*XWorksheet, themes []*XTheme) (work
 			Index:  rID,
 		})
 	}
-	for i := range themes {
+
+	// theme/theme?.xml
+	for i := range file.Themes {
 		themeIndex := i + 1
 		rID++
 		workbookRelations.Relationships = append(workbookRelations.Relationships, &XRelationship{
@@ -58,6 +61,7 @@ func NewWorkbookXRelationships(worksheets []*XWorksheet, themes []*XTheme) (work
 		})
 	}
 
+	// styles.xml
 	rID++
 	workbookRelations.Relationships = append(workbookRelations.Relationships, &XRelationship{
 		ID:     fmt.Sprintf("rId%d", rID),
@@ -65,6 +69,17 @@ func NewWorkbookXRelationships(worksheets []*XWorksheet, themes []*XTheme) (work
 		Target: StyleSheetFileName,
 		Index:  rID,
 	})
+
+	// sharedStrings.xml
+	if file.SharedStrings.Count > 0 {
+		rID++
+		workbookRelations.Relationships = append(workbookRelations.Relationships, &XRelationship{
+			ID:     fmt.Sprintf("rId%d", rID),
+			Type:   SharedStringsRelationshipType,
+			Target: SharedStringsFileName,
+			Index:  rID,
+		})
+	}
 
 	return
 }

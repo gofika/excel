@@ -16,6 +16,7 @@ type XFile struct {
 	CoreProperties        *XCoreProperties     // docProps/core.xml
 	Themes                []*XTheme            // xl/theme/theme?.xml
 	StyleSheet            *XStyleSheet         // xl/styles.xml
+	SharedStrings         *XSharedStrings      // xl/sharedStrings.xml
 }
 
 // NewDefaultFile create *XFile with default template
@@ -26,24 +27,19 @@ func NewDefaultFile() (file *XFile) {
 	theme1 := NewDefaultXTheme()
 	themes := []*XTheme{theme1}
 
-	workbookRelationships := NewWorkbookXRelationships(worksheets, themes)
-
-	Workbook := NewXWorkbook(workbookRelationships)
-
-	contentTypes := NewXContentTypes(workbookRelationships)
-
-	rootRelationships := NewDefaultRootXRelationships()
-
 	file = &XFile{
-		Worksheets:            worksheets,
-		Workbook:              Workbook,
-		ContentTypes:          contentTypes,
-		WorkbookRelationships: workbookRelationships,
-		RootRelationships:     rootRelationships,
-		ExtendedProperties:    NewXExtendedProperties(Workbook),
-		CoreProperties:        NewDefaultXCoreProperties(),
-		Themes:                themes,
-		StyleSheet:            NewDefaultXStyleSheet(),
+		Worksheets:     worksheets,
+		CoreProperties: NewDefaultXCoreProperties(),
+		Themes:         themes,
+		StyleSheet:     NewDefaultXStyleSheet(),
+		SharedStrings:  NewDefaultXSharedStrings(),
 	}
+
+	file.WorkbookRelationships = NewWorkbookXRelationships(file)
+	Workbook := NewXWorkbook(file.WorkbookRelationships)
+	file.Workbook = Workbook
+	file.ExtendedProperties = NewXExtendedProperties(Workbook)
+	file.ContentTypes = NewXContentTypes(file.WorkbookRelationships)
+	file.RootRelationships = NewDefaultRootXRelationships()
 	return
 }

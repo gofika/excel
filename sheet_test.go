@@ -1,7 +1,9 @@
 package excel
 
 import (
+	"fmt"
 	. "gopkg.in/check.v1"
+	"time"
 )
 
 func (s *XlsxSuite) TestNewSheet(c *C) {
@@ -16,4 +18,23 @@ func (s *XlsxSuite) TestNewSheet(c *C) {
 	c.Assert(err, IsNil)
 	sheet := f.OpenSheet("Sheet2")
 	c.Assert(sheet, NotNil)
+}
+
+func (s *XlsxSuite) TestSetCellValue(c *C) {
+	const docPath = "test_docs/set_cell_values.xlsx"
+	f := NewFile()
+
+	sheet := f.OpenSheet("Sheet1")
+	sheet.SetCellValue(ColumnNumber("A"), 1, "Name")
+	sheet.SetCellValue(ColumnNumber("B"), 1, "Score")
+	sheet.SetCellValue(ColumnNumber("A"), 2, "Jason")
+	sheet.SetCellValue(ColumnNumber("B"), 2, 100)
+
+	sheet.SetCellValue(ColumnNumber("C"), 3, 200.50)
+	sheet.SetCellValue(ColumnNumber("D"), 3, time.Date(1980, 9, 8, 23, 40, 10, 40, time.UTC))
+	sheet.SetCellValue(ColumnNumber("E"), 4, 10 * time.Second)
+
+	if err := f.SaveFile(docPath); err != nil {
+		fmt.Println(err)
+	}
 }

@@ -15,4 +15,5 @@ func (s *PackagingSuite) TestFile(c *C) {
 	testNewXWorkbook(c, file)
 	testNewDefaultXWorksheet(c, file)
 	testNewDefaultXStyleSheet(c, file)
+	testNewXSharedStrings(c, file)
 }
