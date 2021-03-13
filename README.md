@@ -82,5 +82,15 @@ func main() {
 
 ## TODO:
 - [x] Basic File Format
-- [x] File: NewFile, OpenFile, SaveFile, Write
-- [ ] Sheet: NewSheet, OpenSheet ...
+- [x] File: NewFile, OpenFile, SaveFile, Write, Sheets
+- [ ] Sheet:
+  - [x] NewSheet, OpenSheet
+  - [x] SetCellValue, GetCellString, GetCellInt, Cell 
+  - [ ] ...
+- [ ] Cell:
+  - [x] Row, Col
+  - [x] SetValue, SetIntValue, SetFloatValue, SetFloatValuePrec, SetStringValue, SetBoolValue, SetDefaultValue, SetTimeValue, SetDurationValue
+  - [x] GetIntValue, GetStringValue
+  - [ ] ...
+
+    
