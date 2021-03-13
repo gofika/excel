@@ -80,11 +80,13 @@ func (s *sheetImpl) prepareRow(row int) *packaging.XRow {
 		R: row,
 	}
 	rowIndex := row - 1
+
 	if len(sheetData.Row) <= rowIndex { // empty slice or after last element
 		sheetData.Row = append(sheetData.Row, r)
+	} else {
+		sheetData.Row = append(sheetData.Row[:rowIndex+1], sheetData.Row[rowIndex:]...)
+		sheetData.Row[rowIndex] = r
 	}
-	sheetData.Row = append(sheetData.Row[:rowIndex+1], sheetData.Row[rowIndex:]...)
-	sheetData.Row[rowIndex] = r
 	return r
 }
 
