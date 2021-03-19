@@ -80,7 +80,7 @@ func (c *cellImpl) prepareCellFormat() *packaging.XXf {
 //     cell.SetValue(100)
 //     cell.SetValue("Hello")
 //     cell.SetValue(3.14)
-func (c *cellImpl) SetValue(value interface{}) {
+func (c *cellImpl) SetValue(value interface{}) Cell {
 	switch v := value.(type) {
 	case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
 		c.setIntType(v)
@@ -103,10 +103,10 @@ func (c *cellImpl) SetValue(value interface{}) {
 	default:
 		c.SetStringValue(fmt.Sprint(value))
 	}
-	return
+	return c
 }
 
-func (c *cellImpl) setIntType(value interface{}) {
+func (c *cellImpl) setIntType(value interface{}) Cell {
 	switch v := value.(type) {
 	case int:
 		c.SetIntValue(v)
@@ -129,13 +129,15 @@ func (c *cellImpl) setIntType(value interface{}) {
 	case uint64:
 		c.SetIntValue(int(v))
 	}
+	return c
 }
 
 // SetIntValue set cell for int type
-func (c *cellImpl) SetIntValue(value int) {
+func (c *cellImpl) SetIntValue(value int) Cell {
 	cell := c.prepareCell()
 	cell.T = ""
 	cell.V = strconv.Itoa(value)
+	return c
 }
 
 // GetIntValue get cell value with int type
@@ -152,14 +154,16 @@ func (c *cellImpl) GetIntValue() int {
 }
 
 // SetFloatValue set cell for float64 type
-func (c *cellImpl) SetFloatValue(value float64) {
+func (c *cellImpl) SetFloatValue(value float64) Cell {
 	c.SetFloatValuePrec(value, -1, 64)
+	return c
 }
 
 // SetFloatValuePrec set cell for float64 type with pres
-func (c *cellImpl) SetFloatValuePrec(value float64, prec int, bitSize int) {
+func (c *cellImpl) SetFloatValuePrec(value float64, prec int, bitSize int) Cell {
 	cell := c.prepareCell()
 	cell.V = strconv.FormatFloat(value, 'f', prec, bitSize)
+	return c
 }
 
 // GetStringValue get cell value with string type
@@ -172,15 +176,16 @@ func (c *cellImpl) GetStringValue() string {
 }
 
 // SetStringValue set cell value for string type
-func (c *cellImpl) SetStringValue(value string) {
+func (c *cellImpl) SetStringValue(value string) Cell {
 	cell := c.prepareCell()
 	cell.T = "s"
 	stringID := c.getSharedStrings().Append(value)
 	cell.V = stringID
+	return c
 }
 
 // SetBoolValue set cell value for bool type
-func (c *cellImpl) SetBoolValue(value bool) {
+func (c *cellImpl) SetBoolValue(value bool) Cell {
 	cell := c.prepareCell()
 	cell.T = "b"
 	if value {
@@ -188,16 +193,18 @@ func (c *cellImpl) SetBoolValue(value bool) {
 	} else {
 		cell.V = "0"
 	}
+	return c
 }
 
 // SetDefaultValue set cell value without any type
-func (c *cellImpl) SetDefaultValue(value string) {
+func (c *cellImpl) SetDefaultValue(value string) Cell {
 	cell := c.prepareCell()
 	cell.V = value
+	return c
 }
 
 // SetTimeValue set cell value for time.Time type
-func (c *cellImpl) SetTimeValue(value time.Time) {
+func (c *cellImpl) SetTimeValue(value time.Time) Cell {
 	cell := c.prepareCell()
 	cell.T = ""
 
@@ -210,10 +217,11 @@ func (c *cellImpl) SetTimeValue(value time.Time) {
 	} else {
 		cell.V = value.Format(time.RFC3339Nano)
 	}
+	return c
 }
 
 // SetDateValue set cell value for time.Time type as date format
-func (c *cellImpl) SetDateValue(value time.Time) {
+func (c *cellImpl) SetDateValue(value time.Time) Cell {
 	cell := c.prepareCell()
 	cell.T = ""
 
@@ -226,22 +234,25 @@ func (c *cellImpl) SetDateValue(value time.Time) {
 	} else {
 		cell.V = value.Format(time.RFC3339Nano)
 	}
+	return c
 }
 
 // SetDurationValue set cell value for time.Duration type
-func (c *cellImpl) SetDurationValue(value time.Duration) {
+func (c *cellImpl) SetDurationValue(value time.Duration) Cell {
 	cell := c.prepareCell()
 	cell.V = strconv.FormatFloat(value.Seconds()/86400.0, 'f', 5, 32)
 	cellFormat := c.prepareCellFormat()
 	cellFormat.ApplyNumberFormat = true
 	cellFormat.NumFmtID = 21
+	return c
 }
 
 // SetNumberFormat set cell number format with format code
 // https://docs.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.numberingformat?view=openxml-2.8.1
-func (c *cellImpl) SetNumberFormat(formatCode string) {
+func (c *cellImpl) SetNumberFormat(formatCode string) Cell {
 	numFmtID := c.sheet.prepareNumberingFormat(formatCode)
 	cellFormat := c.prepareCellFormat()
 	cellFormat.ApplyNumberFormat = true
 	cellFormat.NumFmtID = numFmtID
+	return c
 }

@@ -38,8 +38,9 @@ func (s *sheetImpl) getStyleSheet() *packaging.XStyleSheet {
 //     sheet.SetCellValue(2, 3, 98.01) // B3 => 98.01
 //     sheet.SetCellValue(3, 1, 1000) // C1 => 1000
 //     sheet.SetCellValue(4, 4, time.Now()) // D4 => "2021-03-11 05:19:16.483"
-func (s *sheetImpl) SetCellValue(col, row int, value interface{}) {
-	s.Cell(col, row).SetValue(value)
+func (s *sheetImpl) SetCellValue(col, row int, value interface{}) (cell Cell) {
+	cell = s.Cell(col, row).SetValue(value)
+	return
 }
 
 // GetCellString get cell value of string
@@ -61,6 +62,11 @@ func (s *sheetImpl) GetCellInt(col, row int) int {
 // cell get cell by cell name
 func (s *sheetImpl) Cell(col, row int) Cell {
 	return newCell(s, col, row)
+}
+
+// AxisCell get cell by cell name
+func (s *sheetImpl) AxisCell(axis Axis) Cell {
+	return s.Cell(axis.C())
 }
 
 func (s *sheetImpl) getRow(row int) *packaging.XRow {

@@ -21,7 +21,7 @@ go get github.com/leaker/excel
 
 To import this package, add the following line to your code:
 
-```go
+```js
 import "github.com/leaker/excel"
 ```
 
@@ -33,32 +33,31 @@ Here is example usage that will create xlsx file.
 package main
 
 import (
-    "fmt"
-
-    "github.com/leaker/excel"
+	"fmt"
+	"github.com/leaker/excel"
+	"time"
 )
 
 func main() {
-    f := xlsx.NewFile()
+	f := excel.NewFile()
 
-    sheet := f.NewSheet("Sheet2")
-    sheet.SetCellValue(xlsx.ColumnNumber("A"), 1, "Name")
-    sheet.SetCellValue(xlsx.ColumnNumber("A"), 2, "Jason")
-    sheet.SetCellValue(xlsx.ColumnNumber("B"), 1, "Score")
-    sheet.SetCellValue(xlsx.ColumnNumber("B"), 2, 100)
-    // date value 
-    sheet.SetCellValue(3, 1, "Date")
-    cellDate := sheet.Cell(3, 2)
-    cellDate.SetDateValue(time.Date(1980, 9, 8, 0, 0, 0, 0, time.Local))
-    // time value
-    sheet.SetCellValue(4, 1, "LastTime")
-    cellLastTime := sheet.Cell(4, 2)
-    cellLastTime.SetTimeValue(time.Now())
-    cellLastTime.SetNumberFormat("yyyy-mm-dd hh:mm:ss")
+	sheet := f.NewSheet("Sheet2")
+	sheet.SetCellValue(excel.ColumnNumber("A"), 1, "Name")
+	sheet.SetCellValue(excel.ColumnNumber("A"), 2, "Jason")
+	sheet.SetCellValue(excel.ColumnNumber("B"), 1, "Score")
+	sheet.SetCellValue(excel.ColumnNumber("B"), 2, 100)
+	// date value 
+	sheet.SetCellValue(3, 1, "Date")
+	sheet.Cell(3, 2).SetDateValue(time.Date(1980, 9, 8, 0, 0, 0, 0, time.Local))
+	// time value
+	sheet.AxisCell("D1").SetStringValue("LastTime")
+	sheet.AxisCell("D2").
+		SetTimeValue(time.Now()).
+		SetNumberFormat("yyyy-mm-dd hh:mm:ss")
 
-    if err := f.SaveFile("Document1.xlsx"); err != nil {
-        fmt.Println(err)
-    }
+	if err := f.SaveFile("Document1.xlsx"); err != nil {
+		fmt.Println(err)
+	}
 }
 ```
 
@@ -70,24 +69,23 @@ The following constitutes the bare to read a spreadsheet document.
 package main
 
 import (
-    "fmt"
-
-    "github.com/leaker/excel"
+	"fmt"
+	"github.com/leaker/excel"
 )
 
 func main() {
-    f, err := xlsx.OpenFile("Document1.xlsx")
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
-    
-    sheet := f.OpenSheet("Sheet2")
-    A1 := sheet.GetCellString(1, 1)
-    fmt.Println(A1)
-    
-    cell := sheet.Cell(xlsx.ColumnNumber("B"), 2)
-    fmt.Println(cell.GetIntValue())
+	f, err := excel.OpenFile("Document1.xlsx")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	sheet := f.OpenSheet("Sheet2")
+	A1 := sheet.GetCellString(1, 1)
+	fmt.Println(A1)
+
+	cell := sheet.AxisCell("B2")
+	fmt.Println(cell.GetIntValue())
 }
 ```
 
@@ -97,12 +95,12 @@ func main() {
 - [x] File: NewFile, OpenFile, SaveFile, Write, Sheets
 - [ ] Sheet:
     - [x] NewSheet, OpenSheet
-    - [x] SetCellValue, GetCellString, GetCellInt, Cell
+    - [x] SetCellValue, GetCellString, GetCellInt, Cell, AxisCell
     - [ ] ...
 - [ ] Cell:
     - [x] Row, Col
     - [x] SetValue, SetIntValue, SetFloatValue, SetFloatValuePrec, SetStringValue, SetBoolValue, SetDefaultValue,
-      SetTimeValue, SetDurationValue
+      SetTimeValue, SetDateValue, SetDurationValue
     - [x] GetIntValue, GetStringValue
     - [x] SetNumberFormat
     - [ ] ...

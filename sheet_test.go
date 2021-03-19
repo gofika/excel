@@ -33,9 +33,9 @@ func (s *XlsxSuite) TestSetCellValue(c *C) {
 	sheet.SetCellValue(ColumnNumber("D"), 3, time.Date(1980, 9, 8, 23, 40, 10, 40, time.Local))
 	sheet.SetCellValue(ColumnNumber("E"), 4, 10*time.Second)
 
-	cellD4 := sheet.Cell(ColumnNumber("D"), 4)
-	cellD4.SetTimeValue(time.Date(1980, 9, 8, 23, 40, 10, 40, time.Local))
-	cellD4.SetNumberFormat("yyyy-mm-dd hh:mm:ss")
+	sheet.AxisCell("D4").
+		SetTimeValue(time.Date(1980, 9, 8, 23, 40, 10, 40, time.Local)).
+		SetNumberFormat("yyyy-mm-dd hh:mm:ss")
 	err := f.SaveFile(docPath)
 	c.Assert(err, IsNil)
 }
