@@ -10,7 +10,7 @@ type File interface {
 	// Write save to steam
 	Write(w io.Writer) error
 
-	// OpenSheet open a exist *sheetImpl by name
+	// OpenSheet open a exist Sheet by name
 	//
 	// Example:
 	//
@@ -19,7 +19,7 @@ type File interface {
 	// return nil if sheet not exist
 	OpenSheet(name string) Sheet
 
-	// NewSheet create a new *sheetImpl with sheet name
+	// NewSheet create a new Sheet with sheet name
 	// Example:
 	//
 	//     sheet := file.NewSheet("Sheet2")
@@ -29,7 +29,7 @@ type File interface {
 	Sheets() []Sheet
 }
 
-// NewFile create a default xlsx *fileImpl with default template
+// NewFile create a default xlsx File with default template
 func NewFile() File {
 	return newFile()
 }

@@ -1,27 +1,29 @@
-[![codecov](https://codecov.io/gh/leaker/excel/branch/main/graph/badge.svg?token=7OMXdv8pb2)](https://codecov.io/gh/leaker/excel)
+[![codecov](https://codecov.io/gh/leaker/excel/branch/main/graph/badge.svg)](https://codecov.io/gh/leaker/excel)
 [![Build Status](https://github.com/leaker/excel/workflows/build/badge.svg)](https://github.com/leaker/excel)
 [![go.dev](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white)](https://pkg.go.dev/github.com/leaker/excel)
 [![Go Report Card](https://goreportcard.com/badge/github.com/leaker/excel)](https://goreportcard.com/report/github.com/leaker/excel)
 [![Licenses](https://img.shields.io/badge/license-bsd-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
 [![donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](about::blank)
 
-# XLSX
-Microsoft Excel .xlsx read/write for golang
+# Excel
 
+Microsoft Excel .xlsx read/write for golang
 
 ## Basic Usage
 
 ### Installation
 
 To get the package, execute:
+
 ```bash
 go get github.com/leaker/excel
 ```
+
 To import this package, add the following line to your code:
+
 ```go
 import "github.com/leaker/excel"
 ```
-
 
 ### Create spreadsheet
 
@@ -81,16 +83,19 @@ func main() {
 ```
 
 ## TODO:
+
 - [x] Basic File Format
 - [x] File: NewFile, OpenFile, SaveFile, Write, Sheets
 - [ ] Sheet:
-  - [x] NewSheet, OpenSheet
-  - [x] SetCellValue, GetCellString, GetCellInt, Cell 
-  - [ ] ...
+    - [x] NewSheet, OpenSheet
+    - [x] SetCellValue, GetCellString, GetCellInt, Cell
+    - [ ] ...
 - [ ] Cell:
-  - [x] Row, Col
-  - [x] SetValue, SetIntValue, SetFloatValue, SetFloatValuePrec, SetStringValue, SetBoolValue, SetDefaultValue, SetTimeValue, SetDurationValue
-  - [x] GetIntValue, GetStringValue
-  - [ ] ...
+    - [x] Row, Col
+    - [x] SetValue, SetIntValue, SetFloatValue, SetFloatValuePrec, SetStringValue, SetBoolValue, SetDefaultValue,
+      SetTimeValue, SetDurationValue
+    - [x] GetIntValue, GetStringValue
+    - [x] SetNumberFormat
+    - [ ] ...
 
     

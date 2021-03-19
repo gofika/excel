@@ -66,4 +66,8 @@ type Cell interface {
 
 	// SetDurationValue set cell value for time.Duration type
 	SetDurationValue(value time.Duration)
+
+	// SetNumberFormat set cell number format with format code
+	// https://docs.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.numberingformat?view=openxml-2.8.1
+	SetNumberFormat(formatCode string)
 }

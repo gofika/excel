@@ -1,7 +1,6 @@
 package excel
 
 import (
-	"fmt"
 	. "gopkg.in/check.v1"
 	"time"
 )
@@ -31,10 +30,12 @@ func (s *XlsxSuite) TestSetCellValue(c *C) {
 	sheet.SetCellValue(ColumnNumber("B"), 2, 100)
 
 	sheet.SetCellValue(ColumnNumber("C"), 3, 200.50)
-	sheet.SetCellValue(ColumnNumber("D"), 3, time.Date(1980, 9, 8, 23, 40, 10, 40, time.UTC))
-	sheet.SetCellValue(ColumnNumber("E"), 4, 10 * time.Second)
+	sheet.SetCellValue(ColumnNumber("D"), 3, time.Date(1980, 9, 8, 23, 40, 10, 40, time.Local))
+	sheet.SetCellValue(ColumnNumber("E"), 4, 10*time.Second)
 
-	if err := f.SaveFile(docPath); err != nil {
-		fmt.Println(err)
-	}
+	cellD4 := sheet.Cell(ColumnNumber("D"), 4)
+	cellD4.SetTimeValue(time.Date(1980, 9, 8, 23, 40, 10, 40, time.Local))
+	cellD4.SetNumberFormat("yyyy-mm-dd hh:mm:ss")
+	err := f.SaveFile(docPath)
+	c.Assert(err, IsNil)
 }

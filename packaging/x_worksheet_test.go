@@ -2,7 +2,7 @@ package packaging
 
 import (
 	"fmt"
-	"io/ioutil"
+	"github.com/leaker/util/fileutil"
 	"path"
 
 	. "gopkg.in/check.v1"
@@ -25,7 +25,7 @@ func testNewDefaultXWorksheet(c *C, file *XFile) {
 	result, err = XMLMarshalAppendHeadIndent(file.Worksheets[0])
 	c.Assert(err, IsNil)
 	if needWriteTestFile {
-		err = ioutil.WriteFile(path.Join(templatePath, WorksheetPath, fmt.Sprintf(WorksheetFileName, 1)), []byte(result), 0644)
+		err = fileutil.WriteFile(path.Join(templatePath, WorksheetPath, fmt.Sprintf(WorksheetFileName, 1)), []byte(result))
 		c.Assert(err, IsNil)
 	}
 	c.Assert(result, Equals, defaultWorksheetTemplate)

@@ -1,7 +1,7 @@
 package packaging
 
 import (
-	"io/ioutil"
+	"github.com/leaker/util/fileutil"
 	"path"
 
 	. "gopkg.in/check.v1"
@@ -21,7 +21,7 @@ func testNewDefaultXCoreProperties(c *C, file *XFile) {
 	result, err = XMLMarshalAppendHeadIndent(file.CoreProperties)
 	c.Assert(err, IsNil)
 	if needWriteTestFile {
-		err = ioutil.WriteFile(path.Join(templatePath, CorePropertiesPath, CorePropertiesFileName), []byte(result), 0644)
+		err = fileutil.WriteFile(path.Join(templatePath, CorePropertiesPath, CorePropertiesFileName), []byte(result))
 		c.Assert(err, IsNil)
 	}
 	c.Assert(result, Equals, defaultCorePropertiesTemplate)

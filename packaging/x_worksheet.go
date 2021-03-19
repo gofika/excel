@@ -57,16 +57,19 @@ type XSheetData struct {
 
 // XRow Row node
 type XRow struct {
-	R            int    `xml:"r,attr"`
-	Spans        string `xml:"spans,attr,omitempty"`
-	Hidden       bool   `xml:"hidden,attr,omitempty"`
-	C            []*XC  `xml:"c"`
-	Ht           string `xml:"ht,attr,omitempty"`
-	CustomHeight bool   `xml:"customHeight,attr,omitempty"`
-	OutlineLevel uint8  `xml:"outlineLevel,attr,omitempty"`
+	R              int     `xml:"r,attr"` // row number
+	Spans          string  `xml:"spans,attr,omitempty"`
+	Hidden         bool    `xml:"hidden,attr,omitempty"`
+	C              []*XC   `xml:"c"`
+	Ht             string  `xml:"ht,attr,omitempty"`
+	CustomHeight   bool    `xml:"customHeight,attr,omitempty"`
+	OutlineLevel   uint8   `xml:"outlineLevel,attr,omitempty"`
+	S              int     `xml:"s,attr,omitempty"`            // row style id
+	CustomFormat   bool    `xml:"customFormat,attr,omitempty"` // enable row custom format
+	X14acDyDescent float64 `xml:"x14ac:dyDescent,attr"`
 }
 
-// XC C node
+// XC This collection represents a cell in the worksheet. Information about the cell's location (reference), value, data type, formatting, and formula is expressed here.
 type XC struct {
 	XMLName xml.Name
 

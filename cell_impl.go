@@ -8,7 +8,6 @@ import (
 	"github.com/leaker/excel/packaging"
 )
 
-
 // cellImpl cell operator
 type cellImpl struct {
 	sheet    *sheetImpl
@@ -50,6 +49,10 @@ func (c *cellImpl) getSharedStrings() *sharedStrings {
 
 func (c *cellImpl) prepareCell() *packaging.XC {
 	return c.sheet.prepareCell(c.col, c.row)
+}
+
+func (c *cellImpl) prepareCellFormat() *packaging.XXf {
+	return c.sheet.prepareCellFormat(c.col, c.row)
 }
 
 // SetValue provides to set the value of a cell
@@ -200,7 +203,26 @@ func (c *cellImpl) SetTimeValue(value time.Time) {
 
 	excelTime := TimeToExcelTime(value)
 	if excelTime > 0 {
-		cell.V = strconv.FormatFloat(excelTime, 'f', -1, 64)
+		cell.V = strconv.FormatFloat(excelTime, 'f', 5, 64)
+		cellFormat := c.prepareCellFormat()
+		cellFormat.ApplyNumberFormat = true
+		cellFormat.NumFmtID = 22
+	} else {
+		cell.V = value.Format(time.RFC3339Nano)
+	}
+}
+
+// SetDateValue set cell value for time.Time type as date format
+func (c *cellImpl) SetDateValue(value time.Time) {
+	cell := c.prepareCell()
+	cell.T = ""
+
+	excelTime := TimeToExcelTime(value)
+	if excelTime > 0 {
+		cell.V = strconv.FormatFloat(excelTime, 'f', 5, 64)
+		cellFormat := c.prepareCellFormat()
+		cellFormat.ApplyNumberFormat = true
+		cellFormat.NumFmtID = 34
 	} else {
 		cell.V = value.Format(time.RFC3339Nano)
 	}
@@ -209,7 +231,17 @@ func (c *cellImpl) SetTimeValue(value time.Time) {
 // SetDurationValue set cell value for time.Duration type
 func (c *cellImpl) SetDurationValue(value time.Duration) {
 	cell := c.prepareCell()
-	cell.V = strconv.FormatFloat(value.Seconds()/86400.0, 'f', -1, 32)
-	// TODO: update cell style
-	// c.setDefaultTimeStyle(21)
+	cell.V = strconv.FormatFloat(value.Seconds()/86400.0, 'f', 5, 32)
+	cellFormat := c.prepareCellFormat()
+	cellFormat.ApplyNumberFormat = true
+	cellFormat.NumFmtID = 21
+}
+
+// SetNumberFormat set cell number format with format code
+// https://docs.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.numberingformat?view=openxml-2.8.1
+func (c *cellImpl) SetNumberFormat(formatCode string) {
+	numFmtID := c.sheet.prepareNumberingFormat(formatCode)
+	cellFormat := c.prepareCellFormat()
+	cellFormat.ApplyNumberFormat = true
+	cellFormat.NumFmtID = numFmtID
 }

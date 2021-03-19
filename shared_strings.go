@@ -45,7 +45,7 @@ func (s *sharedStrings) Append(str string) (stringID string) {
 	})
 	sst.UniqueCount++
 
-	if needUpdateRelationships {// need update relationships
+	if needUpdateRelationships { // need update relationships
 		file := s.getFile()
 		// update workbook.xml.rels
 		file.WorkbookRelationships = packaging.NewWorkbookXRelationships(file)

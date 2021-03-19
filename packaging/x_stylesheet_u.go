@@ -19,6 +19,7 @@ type XStyleSheetU struct {
 	Dxfs         *XDxfsU             `xml:"dxfs"`
 	TableStyles  *XTableStylesU      `xml:"tableStyles"`
 	ExtLst       *XStyleSheetExtLstU `xml:"extLst"`
+	NumFmts      *XNumFmtsU          `xml:"numFmts,omitempty"`
 }
 
 // XFontsU fix XML ns for XFonts
@@ -31,20 +32,35 @@ type XFontsU struct {
 
 // XStyleSheetFontU fix XML ns for XStyleSheetFont
 type XStyleSheetFontU struct {
-	Sz     *XValAttrElementU `xml:"sz"`
-	Color  *XColorU          `xml:"color"`
-	Name   *XValAttrElementU `xml:"name"`
-	Family *XValAttrElementU `xml:"family"`
-	Scheme *XValAttrElementU `xml:"scheme"`
-	B      *XValAttrElementU `xml:"b,omitempty"`
-	I      *XValAttrElementU `xml:"i,omitempty"`
-	U      *XValAttrElementU `xml:"u,omitempty"`
-	Strike *XValAttrElementU `xml:"strike,omitempty"`
+	Sz      *XIntValAttrU     `xml:"sz"`
+	Color   *XColorU          `xml:"color"`
+	Name    *XValAttrElementU `xml:"name"`
+	Family  *XValAttrElementU `xml:"family"`
+	Scheme  *XValAttrElementU `xml:"scheme"`
+	B       *XBoolValAttrU    `xml:"b,omitempty"`
+	I       *XBoolValAttrU    `xml:"i,omitempty"`
+	U       *XValAttrElementU `xml:"u,omitempty"`
+	Strike  *XValAttrElementU `xml:"strike,omitempty"`
+	Charset *XValAttrElement  `xml:"charset,omitempty"` // Character Set
+}
+
+// XIntValAttrU fix XML ns for XIntValAttr
+type XIntValAttrU struct {
+	Val int `xml:"val,attr"`
+}
+
+// XBoolValAttrU fix XML ns for XBoolValAttr
+type XBoolValAttrU struct {
+	Val bool `xml:"val,attr"`
 }
 
 // XColorU fix XML ns for XColor
 type XColorU struct {
-	Theme string `xml:"theme,attr"`
+	Theme   string `xml:"theme,attr"`
+	RGB     string `xml:"rgb,attr,omitempty"`
+	Auto    bool   `xml:"auto,attr,omitempty"`
+	Indexed string `xml:"indexed,attr,omitempty"`
+	Tint    string `xml:"tint,attr,omitempty"`
 }
 
 // XFillsU fix XML ns for XFills
@@ -89,11 +105,19 @@ type XCellStyleXfsU struct {
 
 // XXfU fix XML ns for XXf
 type XXfU struct {
-	NumFmtID string `xml:"numFmtId,attr"`
-	FontID   string `xml:"fontId,attr"`
-	FillID   string `xml:"fillId,attr"`
-	BorderID string `xml:"borderId,attr"`
-	XfID     string `xml:"xfId,attr,omitempty"`
+	NumFmtID          int  `xml:"numFmtId,attr"`
+	FontID            int  `xml:"fontId,attr"`
+	FillID            int  `xml:"fillId,attr"`
+	BorderID          int  `xml:"borderId,attr"`
+	XfID              int  `xml:"xfId,attr,omitempty"`
+	ApplyAlignment    bool `xml:"applyAlignment,attr,omitempty"`
+	ApplyBorder       bool `xml:"applyBorder,attr,omitempty"`
+	ApplyFill         bool `xml:"applyFill,attr,omitempty"`
+	ApplyFont         bool `xml:"applyFont,attr,omitempty"`
+	ApplyNumberFormat bool `xml:"applyNumberFormat,attr,omitempty"`
+	ApplyProtection   bool `xml:"applyProtection,attr,omitempty"`
+	PivotButton       bool `xml:"pivotButton,attr,omitempty"`
+	QuotePrefix       bool `xml:"quotePrefix,attr,omitempty"`
 }
 
 // XCellXfsU fix XML ns for XCellXfs
@@ -112,9 +136,12 @@ type XCellStylesU struct {
 
 // XCellStyleU fix XML ns for XCellStyle
 type XCellStyleU struct {
-	Name      string `xml:"name,attr"`
-	XfID      string `xml:"xfId,attr"`
-	BuiltinID string `xml:"builtinId,attr"`
+	Name          string `xml:"name,attr"`
+	XfID          int    `xml:"xfId,attr"`
+	BuiltinID     int    `xml:"builtinId,attr"`
+	CustomBuiltin string `xml:"customBuiltin,attr,omitempty"`
+	Hidden        string `xml:"hidden,attr,omitempty"`
+	ILevel        string `xml:"iLevel,attr,omitempty"`
 }
 
 // XDxfsU fix XML ns for XDxfs
@@ -151,4 +178,16 @@ type XSlicerStylesU struct {
 // XTimelineStylesU fix XML ns for XTimelineStyles
 type XTimelineStylesU struct {
 	DefaultTimelineStyle string `xml:"defaultTimelineStyle,attr"`
+}
+
+// XNumFmtsU fix XML ns for XNumFmts
+type XNumFmtsU struct {
+	Count  int         `xml:"count,attr"`
+	NumFmt []*XNumFmtU `xml:"numFmt"`
+}
+
+// XNumFmtU fix XML ns for XNumFmt
+type XNumFmtU struct {
+	FormatCode string `xml:"formatCode,attr"`
+	NumFmtId   int    `xml:"numFmtId,attr"`
 }

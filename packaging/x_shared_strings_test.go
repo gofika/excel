@@ -1,8 +1,8 @@
 package packaging
 
 import (
+	"github.com/leaker/util/fileutil"
 	. "gopkg.in/check.v1"
-	"io/ioutil"
 	"path"
 )
 
@@ -15,7 +15,7 @@ func testNewXSharedStrings(c *C, file *XFile) {
 	result, err = XMLMarshalAppendHeadIndent(file.SharedStrings)
 	c.Assert(err, IsNil)
 	if needWriteTestFile {
-		err = ioutil.WriteFile(path.Join(templatePath, SharedStringsPath, SharedStringsFileName), []byte(result), 0644)
+		err = fileutil.WriteFile(path.Join(templatePath, SharedStringsPath, SharedStringsFileName), []byte(result))
 		c.Assert(err, IsNil)
 	}
 	c.Assert(result, Equals, defaultSharedStringsTemplate)

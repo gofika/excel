@@ -1,7 +1,7 @@
 package packaging
 
 import (
-	"io/ioutil"
+	"github.com/leaker/util/fileutil"
 	"path"
 
 	. "gopkg.in/check.v1"
@@ -20,7 +20,7 @@ func testNewWorkbookXRelationships(c *C, file *XFile) {
 	result, err = XMLMarshalAppendHeadIndent(file.WorkbookRelationships)
 	c.Assert(err, IsNil)
 	if needWriteTestFile {
-		err = ioutil.WriteFile(path.Join(templatePath, WorkbookRelationshipsPath, WorkbookRelationshipsFileName), []byte(result), 0644)
+		err = fileutil.WriteFile(path.Join(templatePath, WorkbookRelationshipsPath, WorkbookRelationshipsFileName), []byte(result))
 		c.Assert(err, IsNil)
 	}
 	c.Assert(result, Equals, defaultWorkbookRelationshipsTemplate)
@@ -39,7 +39,7 @@ func testNewDefaultRootXRelationships(c *C, file *XFile) {
 	result, err = XMLMarshalAppendHeadIndent(file.RootRelationships)
 	c.Assert(err, IsNil)
 	if needWriteTestFile {
-		err = ioutil.WriteFile(path.Join(templatePath, RootRelationshipsPath, RootRelationshipsFileName), []byte(result), 0644)
+		err = fileutil.WriteFile(path.Join(templatePath, RootRelationshipsPath, RootRelationshipsFileName), []byte(result))
 		c.Assert(err, IsNil)
 	}
 	c.Assert(result, Equals, defaultRootRelationshipsTemplate)

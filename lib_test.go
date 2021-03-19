@@ -22,3 +22,14 @@ func (s *XlsxSuite) TestColumnNumber(c *C) {
 	c.Assert(ColumnNumber("CA"), Equals, 26*3+1)
 	c.Assert(ColumnNumber("ZA"), Equals, 26*26+1)
 }
+
+func (s *XlsxSuite) TestCellNameToCoordinates(c *C) {
+	var col, row int
+	col, row = CellNameToCoordinates("A5")
+	c.Assert(col, Equals, 1)
+	c.Assert(row, Equals, 5)
+
+	col, row = CellNameToCoordinates("Z9")
+	c.Assert(col, Equals, 26)
+	c.Assert(row, Equals, 9)
+}

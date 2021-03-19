@@ -1,7 +1,7 @@
 package packaging
 
 import (
-	"io/ioutil"
+	"github.com/leaker/util/fileutil"
 	"path"
 
 	. "gopkg.in/check.v1"
@@ -25,7 +25,7 @@ func testNewXContentTypes(c *C, file *XFile) {
 	result, err = XMLMarshalAppendHeadIndent(file.ContentTypes)
 	c.Assert(err, IsNil)
 	if needWriteTestFile {
-		err = ioutil.WriteFile(path.Join(templatePath, ContentTypesPath, ContentTypesFileName), []byte(result), 0644)
+		err = fileutil.WriteFile(path.Join(templatePath, ContentTypesPath, ContentTypesFileName), []byte(result))
 		c.Assert(err, IsNil)
 	}
 	c.Assert(result, Equals, defaultContentTypesTemplate)

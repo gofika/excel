@@ -27,6 +27,10 @@ func (s *sheetImpl) getSheetData() *packaging.XSheetData {
 	return s.getWorksheet().SheetData
 }
 
+func (s *sheetImpl) getStyleSheet() *packaging.XStyleSheet {
+	return s.file.xFile.StyleSheet
+}
+
 // SetCellValue set cell value
 //
 // Example:
@@ -138,5 +142,63 @@ func (s *sheetImpl) removeRow(row int) {
 			return
 		}
 	}
+}
 
+func (s *sheetImpl) getCellFormat(col, row int) *packaging.XXf {
+	cell := s.getCell(col, row)
+	if cell == nil {
+		return nil
+	}
+	styleSheet := s.getStyleSheet()
+	if cell.S < len(styleSheet.CellXfs.Xf) {
+		return styleSheet.CellXfs.Xf[cell.S]
+	}
+	return nil
+}
+
+func (s *sheetImpl) prepareCellFormat(col, row int) *packaging.XXf {
+	cell := s.prepareCell(col, row)
+	var cellFormat *packaging.XXf
+	if cell.S > 0 { // 0=default cant modify
+		cellFormat = s.getCellFormat(col, row)
+		if cellFormat != nil {
+			return cellFormat
+		}
+	}
+	// create new xf
+	cellFormat = &packaging.XXf{
+		NumFmtID: 0,
+		FontID:   0,
+		FillID:   0,
+		BorderID: 0,
+		XfID:     0,
+	}
+	styleSheet := s.getStyleSheet()
+	styleSheet.CellXfs.Xf = append(styleSheet.CellXfs.Xf, cellFormat)
+	styleSheet.CellXfs.Count = len(styleSheet.CellXfs.Xf)
+	cell.S = styleSheet.CellXfs.Count - 1
+	return cellFormat
+}
+
+func (s *sheetImpl) prepareNumberingFormat(formatCode string) (numFmtID int) {
+	styleSheet := s.getStyleSheet()
+	if styleSheet.NumFmts == nil {
+		styleSheet.NumFmts = &packaging.XNumFmts{
+			Count:  0,
+			NumFmt: []*packaging.XNumFmt{},
+		}
+	}
+	for _, numFmt := range styleSheet.NumFmts.NumFmt {
+		if numFmt.FormatCode == formatCode {
+			return numFmt.NumFmtId
+		}
+	}
+	// create new numFmt
+	numFmt := &packaging.XNumFmt{
+		FormatCode: formatCode,
+		NumFmtId:   1000 + len(styleSheet.NumFmts.NumFmt),
+	}
+	styleSheet.NumFmts.NumFmt = append(styleSheet.NumFmts.NumFmt, numFmt)
+	styleSheet.NumFmts.Count = len(styleSheet.NumFmts.NumFmt)
+	return numFmt.NumFmtId
 }

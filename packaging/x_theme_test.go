@@ -2,7 +2,7 @@ package packaging
 
 import (
 	"fmt"
-	"io/ioutil"
+	"github.com/leaker/util/fileutil"
 	"path"
 
 	. "gopkg.in/check.v1"
@@ -274,7 +274,7 @@ func testTheme(c *C, file *XFile) {
 	result, err = XMLMarshalAppendHeadIndent(file.Themes[0])
 	c.Assert(err, IsNil)
 	if needWriteTestFile {
-		err = ioutil.WriteFile(path.Join(templatePath, ThemePath, fmt.Sprintf(ThemeFileName, 1)), []byte(result), 0644)
+		err = fileutil.WriteFile(path.Join(templatePath, ThemePath, fmt.Sprintf(ThemeFileName, 1)), []byte(result))
 		c.Assert(err, IsNil)
 	}
 	c.Assert(result, Equals, defaultThemeTemplate)

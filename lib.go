@@ -70,16 +70,16 @@ func ColumnName(columnNumber int) (columnName string) {
 // Example:
 //    xlsx.CellNameToCoordinates("A1") // returns 1, 1
 //    xlsx.CellNameToCoordinates("B5") // returns 2, 5
-func CellNameToCoordinates(cellName string) (int, int) {
+func CellNameToCoordinates(cellName string) (col int, row int) {
 	cellName = strings.ToUpper(cellName)
-	re := regexp.MustCompile(`^([A-Z]+)([1-9][0-9]+)$`)
+	re := regexp.MustCompile(`^([A-Z]+)([1-9][0-9]*)$`)
 	mcs := re.FindStringSubmatch(cellName)
 	if len(mcs) < 3 {
 		return 0, 0
 	}
-	columnName := mcs[1]
-	row, _ := strconv.Atoi(mcs[2])
-	return ColumnNumber(columnName), row
+	col = ColumnNumber(mcs[1])
+	row, _ = strconv.Atoi(mcs[2])
+	return
 }
 
 // CoordinatesToCellName convert [col, row] coordinates to cell name

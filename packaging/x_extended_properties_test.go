@@ -1,7 +1,7 @@
 package packaging
 
 import (
-	"io/ioutil"
+	"github.com/leaker/util/fileutil"
 	"path"
 
 	. "gopkg.in/check.v1"
@@ -40,7 +40,7 @@ func testNewXExtendedProperties(c *C, file *XFile) {
 	result, err = XMLMarshalAppendHeadIndent(file.ExtendedProperties)
 	c.Assert(err, IsNil)
 	if needWriteTestFile {
-		err = ioutil.WriteFile(path.Join(templatePath, ExtendedPropertiesPath, ExtendedPropertiesFileName), []byte(result), 0644)
+		err = fileutil.WriteFile(path.Join(templatePath, ExtendedPropertiesPath, ExtendedPropertiesFileName), []byte(result))
 		c.Assert(err, IsNil)
 	}
 	c.Assert(result, Equals, defaultExtendedPropertiesTemplate)

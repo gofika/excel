@@ -12,6 +12,7 @@ import (
 	"strconv"
 
 	"github.com/leaker/excel/packaging"
+	"github.com/leaker/util/gobutil"
 )
 
 // fileImpl define for operation xlsx file
@@ -190,11 +191,11 @@ func readRootRelationships(zipReader *zip.Reader, xFile *packaging.XFile) error 
 		switch relationship.Type {
 		case packaging.WorkbookRelationshipType: // xl/workbook.xml
 			var workbookU packaging.XWorkbookU // fix xml ns bug
-			err := readPart(zipReader, relationship.Target, &workbookU)
+			err = readPart(zipReader, relationship.Target, &workbookU)
 			if err != nil {
 				return err
 			}
-			err = DeepCopy(xFile.Workbook, &workbookU)
+			err = gobutil.DeepCopy(xFile.Workbook, &workbookU)
 			if err != nil {
 				return err
 			}
@@ -209,7 +210,7 @@ func readRootRelationships(zipReader *zip.Reader, xFile *packaging.XFile) error 
 			if err != nil {
 				return err
 			}
-			err = DeepCopy(xFile.CoreProperties, &corePropertiesU)
+			err = gobutil.DeepCopy(xFile.CoreProperties, &corePropertiesU)
 			if err != nil {
 				return err
 			}
@@ -219,7 +220,7 @@ func readRootRelationships(zipReader *zip.Reader, xFile *packaging.XFile) error 
 			if err != nil {
 				return err
 			}
-			err = DeepCopy(xFile.ExtendedProperties, &extendedPropertiesU)
+			err = gobutil.DeepCopy(xFile.ExtendedProperties, &extendedPropertiesU)
 			if err != nil {
 				return err
 			}
@@ -265,7 +266,7 @@ func readWorkbookRelationships(zipReader *zip.Reader, xFile *packaging.XFile) (e
 			if err != nil {
 				return
 			}
-			err = DeepCopy(xFile.Themes[themeIndex-1], &themeU)
+			err = gobutil.DeepCopy(xFile.Themes[themeIndex-1], &themeU)
 			if err != nil {
 				return
 			}
@@ -275,7 +276,7 @@ func readWorkbookRelationships(zipReader *zip.Reader, xFile *packaging.XFile) (e
 			if err != nil {
 				return
 			}
-			err = DeepCopy(xFile.StyleSheet, &styleSheetU)
+			err = gobutil.DeepCopy(xFile.StyleSheet, &styleSheetU)
 			if err != nil {
 				return
 			}

@@ -1,7 +1,7 @@
 package packaging
 
 import (
-	"io/ioutil"
+	"github.com/leaker/util/fileutil"
 	"path"
 
 	. "gopkg.in/check.v1"
@@ -36,7 +36,7 @@ const defaultStyleSheetTemplate = `<?xml version="1.0" encoding="UTF-8" standalo
         </border>
     </borders>
     <cellStyleXfs count="1">
-        <xf numFmtId="0" fontId="0" fillId="0" borderId="0"></xf>
+        <xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"></xf>
     </cellStyleXfs>
     <cellXfs count="1">
         <xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"></xf>
@@ -62,7 +62,7 @@ func testNewDefaultXStyleSheet(c *C, file *XFile) {
 	result, err = XMLMarshalAppendHeadIndent(file.StyleSheet)
 	c.Assert(err, IsNil)
 	if needWriteTestFile {
-		err = ioutil.WriteFile(path.Join(templatePath, StyleSheetPath, StyleSheetFileName), []byte(result), 0644)
+		err = fileutil.WriteFile(path.Join(templatePath, StyleSheetPath, StyleSheetFileName), []byte(result))
 		c.Assert(err, IsNil)
 	}
 	c.Assert(result, Equals, defaultStyleSheetTemplate)

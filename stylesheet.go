@@ -1,6 +1,5 @@
 package excel
 
-// styleSheet style operator
-type styleSheet struct {
+type styleSheetImpl struct {
 	owner *fileImpl
 }

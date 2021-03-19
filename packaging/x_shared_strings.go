@@ -4,10 +4,10 @@ import "encoding/xml"
 
 //  SharedStrings Defines
 const (
-	SharedStringsContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"
+	SharedStringsContentType      = "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"
 	SharedStringsRelationshipType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings"
 
-	SharedStringsPath = "xl"
+	SharedStringsPath     = "xl"
 	SharedStringsFileName = "sharedStrings.xml"
 )
 
