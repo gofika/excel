@@ -40,13 +40,22 @@ import (
 
 func main() {
     f := xlsx.NewFile()
-    
+
     sheet := f.NewSheet("Sheet2")
-	sheet.SetCellValue(xlsx.ColumnNumber("A"), 1, "Name")
-	sheet.SetCellValue(xlsx.ColumnNumber("B"), 1, "Score")
-	sheet.SetCellValue(xlsx.ColumnNumber("A"), 2, "Jason")
-	sheet.SetCellValue(xlsx.ColumnNumber("B"), 2, 100)
-    
+    sheet.SetCellValue(xlsx.ColumnNumber("A"), 1, "Name")
+    sheet.SetCellValue(xlsx.ColumnNumber("A"), 2, "Jason")
+    sheet.SetCellValue(xlsx.ColumnNumber("B"), 1, "Score")
+    sheet.SetCellValue(xlsx.ColumnNumber("B"), 2, 100)
+    // date value 
+    sheet.SetCellValue(3, 1, "Date")
+    cellDate := sheet.Cell(3, 2)
+    cellDate.SetDateValue(time.Date(1980, 9, 8, 0, 0, 0, 0, time.Local))
+    // time value
+    sheet.SetCellValue(4, 1, "LastTime")
+    cellLastTime := sheet.Cell(4, 2)
+    cellLastTime.SetTimeValue(time.Now())
+    cellLastTime.SetNumberFormat("yyyy-mm-dd hh:mm:ss")
+
     if err := f.SaveFile("Document1.xlsx"); err != nil {
         fmt.Println(err)
     }
