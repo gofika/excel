@@ -1,7 +1,7 @@
 package excel
 
 import (
-	"github.com/leaker/excel/packaging"
+	"github.com/gofika/excel/packaging"
 	"strconv"
 )
 

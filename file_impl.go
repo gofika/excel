@@ -11,8 +11,8 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/leaker/excel/packaging"
-	"github.com/leaker/util/gobutil"
+	"github.com/gofika/excel/packaging"
+	"github.com/gofika/util/gobutil"
 )
 
 // fileImpl define for operation xlsx file

@@ -1,8 +1,8 @@
-[![codecov](https://codecov.io/gh/leaker/excel/branch/main/graph/badge.svg)](https://codecov.io/gh/leaker/excel)
-[![Build Status](https://github.com/leaker/excel/workflows/build/badge.svg)](https://github.com/leaker/excel)
-[![go.dev](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white)](https://pkg.go.dev/github.com/leaker/excel)
-[![Go Report Card](https://goreportcard.com/badge/github.com/leaker/excel)](https://goreportcard.com/report/github.com/leaker/excel)
-[![Licenses](https://img.shields.io/badge/license-bsd-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
+[![codecov](https://codecov.io/gh/gofika/excel/branch/main/graph/badge.svg)](https://codecov.io/gh/gofika/excel)
+[![Build Status](https://github.com/gofika/excel/workflows/build/badge.svg)](https://github.com/gofika/excel)
+[![go.dev](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white)](https://pkg.go.dev/github.com/gofika/excel)
+[![Go Report Card](https://goreportcard.com/badge/github.com/gofika/excel)](https://goreportcard.com/report/github.com/gofika/excel)
+[![Licenses](https://img.shields.io/github/license/gofika/excel)](LICENSE)
 [![donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](about::blank)
 
 # Excel
@@ -16,13 +16,13 @@ Microsoft Excel .xlsx read/write for golang
 To get the package, execute:
 
 ```bash
-go get github.com/leaker/excel
+go get github.com/gofika/excel
 ```
 
 To import this package, add the following line to your code:
 
 ```js
-import "github.com/leaker/excel"
+import "github.com/gofika/excel"
 ```
 
 ### Create spreadsheet
@@ -34,7 +34,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/leaker/excel"
+	"github.com/gofika/excel"
 	"time"
 )
 
@@ -46,7 +46,7 @@ func main() {
 	sheet.SetCellValue(excel.ColumnNumber("A"), 2, "Jason")
 	sheet.SetCellValue(excel.ColumnNumber("B"), 1, "Score")
 	sheet.SetCellValue(excel.ColumnNumber("B"), 2, 100)
-	// date value 
+	// date value
 	sheet.SetCellValue(3, 1, "Date")
 	sheet.Cell(3, 2).SetDateValue(time.Date(1980, 9, 8, 0, 0, 0, 0, time.Local))
 	// time value
@@ -70,7 +70,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/leaker/excel"
+	"github.com/gofika/excel"
 )
 
 func main() {
@@ -104,5 +104,3 @@ func main() {
     - [x] GetIntValue, GetStringValue
     - [x] SetNumberFormat
     - [ ] ...
-
-    

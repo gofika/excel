@@ -1,7 +1,7 @@
 package packaging
 
 import (
-	"github.com/leaker/util/fileutil"
+	"github.com/gofika/util/fileutil"
 	. "gopkg.in/check.v1"
 	"path"
 )

@@ -1,6 +1,6 @@
 package excel
 
-import "github.com/leaker/excel/packaging"
+import "github.com/gofika/excel/packaging"
 
 // VariantTypes
 const (
